@@ -1,0 +1,417 @@
+[background(bgData, variables.backgroundOpacity)]
+
+<base href="https://perchance.org/perchance-ai-image-generator-v4" />
+<style>
+  :root {
+    color-scheme: dark;
+  }
+  .group {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .minSize {
+    height: min-content;
+  }
+  .largeContent {
+    width: 74%;
+    margin: 0 auto;
+  }
+  .mediumContent {
+    width: 48%;
+    margin: 0 auto;
+  }
+  .smallContent {
+    width: 25%;
+    margin: 0 auto;
+  }
+  .imageSection {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .imageSection > * {
+    margin: 5px 5px 5px 5px;
+    max-height: calc( 100% - 10px );
+    max-width: calc( 100% - 10px );
+    height: calc( 100% - 10px );
+    width: calc( 100% - 10px );
+  }
+      /* Style the tab */
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-image: url();
+  }
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+  }
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      background-color: #ddd;
+  }
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #ccc;
+  }
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      padding: 6px 0px;
+      border: 1px solid #ccc;
+      border-top: none;
+  }
+    #topButton {
+      display: none; /* Hidden by default */
+      position: fixed; /* Fixed/sticky position */
+      bottom: 10px; /* Place the button at the bottom of the page */
+      right: -1px; /* Place the button 30px from the right */
+      z-index: 99; /* Make sure it does not overlap */
+      border: none; /* Remove borders */
+      background-color: rgba(0,0,0,0.9); /* Set a background color */
+      color: white; /* Text color */
+      cursor: pointer; /* Add a mouse pointer on hover */
+      border-radius: 10px 0px 0px 10px; /* Rounded corners */
+      font-size: 18px; /* Increase font size */
+      width: 40px; 
+      height: 40px; 
+      padding: 0px 0px 0px 0px; 
+      border: 2px solid black;
+  }
+    #topButton:hover {
+      background-color: #555; /* Add a dark-grey background on hover */
+  }
+    section {
+      background: rgba(0,0,0,0.5);
+      padding:10px;
+      width: 100%;
+      border-radius:0px;
+      box-shadow: 0  -1px 5px #f0f, 0 1px 5px cyan;
+      margin-top:10px;
+  }
+    textarea {
+      resize: vertical;
+  }
+    body {
+      font-family: "trebuchet ms", Geneva, Sans-Serif;
+      color: white;
+      background-color: black;
+  }
+    legend {
+      background-color: gray;
+      border-radius: 5px 0px 5px;
+      color: white;
+      padding: 5px 10px;
+}
+</style>
+<!-- Tab links -->
+<div class="tab">
+  <button id="LondonClick" class="tablinks" onclick="openCity(event, 'London')">AI Image Generator</button>
+  <button class="tablinks" onclick="openCity(event, 'Paris')">Comments</button>
+  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Gallery</button>
+  <button class="tablinks" onclick="openCity(event, 'Upload')">Upload</button>
+</div>
+
+<!-- Tab content -->
+<div id="London" class="tabcontent" onload="openCity(event, 'London')">
+  <section style="margin: 20px 0px 0px 0px;">
+  <div style="font-size:25px">
+    <b>🌌 AI Image Generator V[variables.version] 🪄</b>
+  </div>
+  <div style="text-shadow: 0  -1px 5px #f0f, 0 1px 5px cyan;">
+    <i>The Generator is Functional, but I plan to change the aesthetics - any help much appreciated. This is the final V4 update, V5 is under development</i>
+  </div>
+  <div style="padding-top: 6px, font-family: " >
+    Add a description, then click the <b>generate</b> button
+  </div>
+</section>
+<main style="max-width: 90%; margin: 0 auto">
+  <section>
+  <h1>[variables.title]</h1>
+  </section>
+  <section>
+  <fieldset class="group">
+    <legend>Prompt</legend>
+    <textarea id="promptInput" class="largeContent" placeholder="Things you want in the image" oninput="prompt = this.value" onkeyup="if(event.which === 13) { document.querySelector('#generateButtonEl').click(); }" onkeydown="if(event.which === 13) { event.preventDefault(); }"></textarea>
+    <select id="promptPostfixInput" class="smallContent minSize" oninput="promptPostfix = this.value">
+      <option value="">No style</option>
+      <option value=", sharp focus, professional photography, masterpiece, ultra detailed photograph, high quality, 8k, raw">Photorealistic</option>
+      <option value=", (male, masculine, masc, male), art by atey ghailan, painterly anime style at pixiv, art by kantoku, in art style of redjuice/necömi/rella/tiv pixiv collab, your name anime screencap, masterpiece digital painting, exquisite lighting and composition, inspired by wlop art style, 8k, sharp, very detailed, high resolution, illustration">Painted Anime (male)</option>
+      <option value=", art by atey ghailan, painterly anime style at pixiv, art by kantoku, art by Andy Gavin, art by Jason Rubin,  art by 	Charles Zembillas, in art style of redjuice/necömi/rella/tiv pixiv collab, your name anime screencap, masterpiece digital painting, exquisite lighting and composition, inspired by wlop art style, 8k, sharp, very detailed, high resolution, illustration">Painted Anime (female)</option>
+      <option value=", casual photo">Casual Photo</option>
+      <option value=", concept art, digital art, illustration, league of legends style concept art, inspired by wlop style, 8k, fine details, sharp, very detailed, high resolution">Concept Art</option>
+      <option value=", award-winning digital art, trending on artstation, by atey ghailan, by greg rutkowski, by greg tocchini, by james gilleard, 8k, high resolution, best quality">Digital Painting</option>
+      <option value=", 3D cartoon Disney character portrait render, bokeh, 4k, highly detailed, Pixar render, CGI Animation, Disney, cute big circular reflective eyes, dof, (cinematic film), Disney realism, subtle details, award-winning Pixar short, fine details, close up, sharp focus, HDR, Disney-style octane render, incredible composition, superb lighting and detail">3D Disney Character</option>
+      <option value=", 2D cartoon Disney character digital art, superb linework, classic 2D Disney style art, close-up, inspired by the art styles of Glen Keane and Aaron Blaise, Disney-style character concept with a Disney-style face, (trending on artstation), Disney-style version">2D Disney Character</option>
+      <option value=", Glen Keane character concept art pencil sketch, (rough pencil sketch by Glen Keane:1.2), rough pencil sketch, close up, loose Disney-style character concept art sketch, (nice sketchy pencil strokes), Disney character design sketch, pencil texture, a concept art pencil sketch, (by Glen Keane:1.3)">Disney Sketch</option>
+      <option value=", painterly digital painting, digital painting by Ilya Kuvshinov with painterly brush strokes, by Ilya Kuvshinov, painterly masterpiece">Painterly</option>
+      <option value=", photorealistic oil painting, by charlie bowater, by wlop, trending on artstation">Oil Painting</option>
+      <option value=", sharp focus, award-winning photograph">Professional Photo</option>
+      <option value=", cinematic shot, dynamic lighting, 75mm, Technicolor, Panavision, cinemascope, sharp focus, fine details, 8k, HDR, realism, realistic, key visual, film still, superb cinematic color grading, depth of field">Cinematic</option>
+      <option value=", (anime art:1.2), anime masterpiece, award winning anime art, 4k, Ghibli screencap, Your Name screencap, 5 Centimeters per Second screencap, Weathering with You screencap, Paprika screencap, Summer Wars screencap, A Silent Voice screencap, spirited away screencap">Anime</option>
+      <option value=", cute moe anime character portrait, adorable, featured on pixiv, kawaii moé masterpiece, cuteness overload, very detailed, close-up, sooooo adorable!!!, absolute masterpiece">Cute Anime</option>
+      <option value=", anime masterpiece, intricate, highly detailed, pixiv, anime screenshot, 4k, screenshot from your name anime, garden of words screencap, high quality">Soft Anime</option>
+      <option value=", d&d, fantasy, highly detailed, digital painting, artstation, sharp focus, fantasy art, illustration, 8k, in the style of greg rutkowski">Fantasy Painting</option>
+      <option value=", fantasy matte painting, absolute masterpiece, detailed matte painting by andreas rocha and greg rutkowski, by Brothers Hildebrandt, superb composition, vivid fantasy art, award-winning fantasy masterpiece">Fantasy Landscape</option>
+      <option value=", d&d, fantasy, highly detailed, digital painting, artstation, sharp focus, fantasy art, character art, illustration, 8k, art by artgerm and greg rutkowski">Fantasy Portrait</option>
+      <option value=", studio ghibli style art, sharp, very detailed, high resolution, inspired by hayao miyazaki, anime, screenshot from ghibli movie">Studio Ghibli</option>
+      <option value=", comic book style art, (drawing, by Dave Stevens, by Adam Hughes, 1940's, 1950's:1.2), hand-drawn, color, high resolution, best quality, closeup">Vintage Comic</option>
+      <option value=", pixel art, best pixel art, neo-geo graphical style, retro nostalgic masterpiece, 128px, 16-bit pixel art, 2D pixel art style, adventure game pixel art, inspired by the art style of hyper light drifter, masterful dithering, superb composition, beautiful palette, exquisite pixel detail">Pixel Art</option>
+      <option value=", figurine, modern Disney style, octane render, chibi">Cute Figurine</option>
+      <option value=", award-winning illustration, (illustration:1.3), masterpiece, award-winning illustration">Illustration</option>
+      <option value=", illustration, flat, 2D, vector art, masterpiece, made with adobe illustrator, behance competition winner, trending on dribble, 4k, high resolution, crisp lines">Flat Illustration</option>
+      <option value=", (watercolor), high resolution, intricate details, 4k, wallpaper, concept art, watercolor on textured paper">Watercolor</option>
+      <option value=", 90s home video, nostalgic 90s photo, taken with kodak disposable camera">1990s Photo</option>
+      <option value=", famous vintage 80s photo, grainy photograph, 80s photo with film grain, Kodacolor II 80s photo with vignetting, retro, r/OldSchoolCool, 80s photo with wear and tear and minor creasing and scratches, award-winning vintage color photo">1980s Photo</option>
+      <option value=", famous vintage 70s photo, grainy photograph, 1970s photo with film grain, 70s photo with vignetting, retro, r/OldSchoolCool, 70s photo, award-winning vintage photo">1970s Photo</option>
+      <option value=", famous vintage 60s photo, grainy photograph, 1960s photo with film grain, 60s photo with vignetting, retro, r/OldSchoolCool, 60s photo, award-winning vintage photo">1960s Photo</option>
+      <option value=", famous vintage 50s photo, grainy photograph, 1950s photo with film grain, 1950s photo with vignetting, retro, r/OldSchoolCool, 1950s photo, award-winning vintage photo">1950s Photo</option>
+      <option value=", famous vintage 1940s photo, grainy photograph, 1940s photo with film grain, 1940s photo with vignetting, retro, r/OldSchoolCool, 1940s photo, award-winning vintage photo">1940s Photo</option>
+      <option value=", famous vintage 1930s photo, grainy photograph, 1930s photo with film grain, 1930s photo with vignetting, retro, r/OldSchoolCool, 1930s photo, award-winning vintage photo">1930s Photo</option>
+      <option value=", famous vintage 1920s photo, 1920s photo, restored photograph, sepia, black and white, historical archive photo">1920s Photo</option>
+      <option value=", vintage pulp art, by Earle K. Bergey, by Kelly Freas, by Alex Schomburg, by H. J. Ward, glossy pulp art, Amazing Stories, Weird Tales, 8k, high resolution, best quality">Vintage Pulp Art</option>
+      <option value=", 1950s infomercial style, (delicate linework:1.1), paprika anime art style, close-up, (chromatic aberration glow:1.2), 2d painted cel animation, close-up, soft focus, 2D pixiv 1950s">50s Infomercial Anime</option>
+      <option value=", a pokemon creature, 4k render, beautiful pokemon digital art, fakemon, Sowsow, Yuu Nishida, Tokiya, Mitsuhiro Arita, Naoki Saito, Kawayoo, Hitoshi Ariga, pokemon creature, cryptid, fakemon, masterpiece, 4k">3D Pokemon</option>
+      <option value=", 4k digital painting of a pokemon, amazing pokemon art by piperdraws, cryptid creations by Piper Thibodeau, by Naoki Saito and Tokiya, Mitsuhiro Arita, incredible composition">Painted Pokemon</option>
+      <option value=", pokemon creature concept, superb line art, beautiful pokemon digital art, fakemon, Sowsow, Yuu Nishida, Tokiya, Mitsuhiro Arita, Naoki Saito, Kawayoo, Hitoshi Ariga, pokemon creature, cryptid, fakemon, masterpiece, 4k">2D Pokemon</option>
+      <option value=", vintage anime, 90's anime style, by hajime sorayama, by greg tocchini, anime masterpiece, pixiv, akira-style art, akira anime screenshot, 4k, high quality">Vintage Anime</option>
+      <option value=", neon vintage anime style, 90's anime style, hajime sorayama, greg tocchini, neon vintage anime masterpiece, anime screenshot, 4k, high quality">Neon Vintage Anime</option>
+      <option value=", incredible hand-drawn manga, black and white, by Takehiko Inoue, by Katsuhiro Otomo and akira toriyama manga, hand-drawn art by rumiko takahashi and Inio Asano, Ken Akamatsu manga art">Manga</option>
+      <option value=", beautiful fantasy map, beautiful fantasy map inspired by middle earth and azeroth and discworld and westeros and essos and the witcher world and tamriel and faerûn and thedas, 4k, beautiful colors, crisp, high-resolution artistic map, topographic 3D terrain, artistic map">Fantasy World Map</option>
+      <option value=", an aerial view of a city, TTRPG city map showing the full city, fantasy art, by senior environment artist, beautiful fantasy map">Fantasy City Map</option>
+      <option value=", fantasy world map, highly detailed digital painting, fantasy art, map illustration, 8k">Old World Map</option>
+      <option value=", 3D isometric cute render , 3D app icon, clean isometric design, beautiful design, soft gradient background, soft colors, centered, 3D blender render, masterpiece, best quality, high resolution, 8k octane render, beautiful color scheme, soft smooth lighting, physically based rendering, square image, high polycount">3D Isometric Icon</option>
+      <option value=", icon, flat style icon, masterpiece, high resolution, crisp, beautiful composition and color choice, beautiful flat painted style, the most popular behance contest-winning icon, award winning illustration, 8k, best quality">Flat Style Icon</option>
+      <option value=", a concept art icon for league of legends, a digital art logo, illustration, league of legends style icon, inspired by wlop style, 8k, dota 2 style icon, fine details, sharp, very detailed icon, high resolution rpg ability/spell/item icon">Game Art Icon</option>
+      <option value=", app logo icon, award-winning digital art pictogram icon, trending on artstation, app icon by atey ghailan, app icon by greg rutkowski, app icon by greg tocchini, app icon by james gilleard, 8k, high resolution, best quality">Digital Painting Icon</option>
+      <option value=", a concept art icon, a digital art logo, illustration, league of legends style concept art logo icon, inspired by wlop style, 8k, fine details, sharp, very detailed, high resolution logo icon">Concept Art Icon</option>
+      <option value=", a cute 3D icon, cartoon 3D icon, very cute shape, stylized octane render, 8k, masterpiece, soooo cute, beautiful cute perfection, beautiful soft lighting, soft colors, centered, high resolution, soft gradient background">Cute 3D Icon</option>
+      <option value=", a set of lovely little 3D icons, cute 3D icons, very cute shapes, stylized octane render, 8k, masterpiece, soooo cute, beautiful cute perfection, beautiful soft lighting, soft colors, centered, high resolution, cute icon set">Cute 3D Icon Set</option>
+      <option value=", crayon drawing">Crayon Drawing</option>
+      <option value=", award winning pencil illustration, highly detailed, 4k">Pencil</option>
+      <option value=", amazing tattoo design, award-winning tattoo design, incredible tattoo design">Tattoo Design</option>
+      <option value=", waifu character portrait, danbooru contest winner, art by Kazenoko, featured on pixiv, 1 girl, by Ilya Kuvshinov, Kantoku art, very detailed anime art by Redjuice">Waifu</option>
+      <option value=", yugioh card art, art by genzoman, by Akina Fujiwara, by rossdraws, yugioh monster, close up, painterly details, award-winning art, centered, masterpiece, amazing composition">YuGiOh Art</option>
+      <option value=", in ukiyo-e art style, traditional japanese masterpiece">Traditional Japanese</option>
+      <option value=", claymation, award-winning claymation style, kubo and the two strings screencap, Missing Link 2019 screencap, clay texture, clay animation, stop-motion clay">Claymation</option>
+      <option value=", award-winning cartoon-style art, superb linework, nice colors and composition, bold linework, close-up, (masterpiece), cute art by Dana Terrace, by Rebecca Sugar, by ry-spirit, amazing and wholesome cartoon-style art, cute art style, (trending on artstation)">Cartoon</option>
+      <option value=", cursed photo, (creepy and cursed:1.2), absolutely cursed photo, nope nope nope nope, what the actual f, (unsettling photo:1.2), cursed_thing, cursedimages, no context, cursed image, bad photo, weird photo, very strange, color photo, creepy photo, (nightmare fuel)">Cursed Photo</option>
+    </select>
+  </fieldset>
+  <br>
+  <fieldset class="group">
+    <legend>Negative Prompt</legend>
+    <select id="negativePromptPrefixInput" class="smallContent minSize" oninput="negativePromptPrefix = this.value">
+      <option value="">No style</option>
+      <option value="underage, child, young, teen, immature, young looking, ">Young people</option>
+    </select>
+    <textarea id="negativePromptInput" class="mediumContent" placeholder="Things you don't want in the image" oninput="negativePrompt = this.value" onkeyup="if(event.which === 13) { document.querySelector('#generateButtonEl').click(); }" onkeydown="if(event.which === 13) { event.preventDefault(); }"></textarea>
+    <select id="negativePromptPostfixInput" class="smallContent minSize" oninput="negativePromptPostfix = this.value">
+      <option value="">No style</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Photorealistic</option>
+      <option value=", low-quality, deformed, text, poorly drawn, female, feminine, fem, female">Painted Anime (male)</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Painted Anime (female)</option>
+      <option value=", bad photo, bad lighting, high production value, unnatural studio lighting, commercial photoshoot, photoshopped, terrible photo, disfigured">Casual Photo</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Concept Art</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Digital Painting</option>
+      <option value=", worst quality, poorly drawn, bad art, boring, deformed, bad composition, crappy artwork, bad lighting">3D Disney Character</option>
+      <option value=", bad 3D render, bad 3D shadowing, worst quality, poorly drawn, low-resolution render, bad colors, a photo, terrible art, text, logo, bad composition, bad lighting, disfigured, deformed, bad anatomy, crappy educational infographic cartoon, bad 3D render, black and white photo">2D Disney Character</option>
+      <option value=", a photo, photorealistic style, with color, (a bad photo), bad digital art, bad 3D render, gradient, overly detailed, high contrast, bloom, a color photo, smooth shading, hilariously bad drawings, bad anatomy, bad art, 3D, a photo, soft shadows, lot of color">Disney Sketch</option>
+      <option value=", bad 3D render, bad photo, bad art, boring, bad 3D render">Painterly</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Oil Painting</option>
+      <option value=", bad lighting, deformed, text">Professional Photo</option>
+      <option value=", bad lighting, low-quality, deformed, text, poorly drawn, bad art, bad angle, boring, low-resolution, worst quality, bad composition, disfigured">Cinematic</option>
+      <option value=", low-quality, deformed, text, poorly drawn, hilariously bad drawing, bad 3D render">Anime</option>
+      <option value=", worst quality, ugly, 3D, photograph, bad art, blurry, boring">Cute Anime</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Soft Anime</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Fantasy Painting</option>
+      <option value=", faded, blurry, bad art, boring">Fantasy Landscape</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Fantasy Portrait</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Studio Ghibli</option>
+      <option value=", terrible photoshop, low contrast, disfigured, poorly drawn, deformed, tiled, cropped, framed">Vintage Comic</option>
+      <option value=", low quality, poorly drawn, blur, grainy fabric texture, text, bad art, boring colors, blurry platformer screenshot">Pixel Art</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Cute Figurine</option>
+      <option value=", low-quality, deformed, text, poorly drawn, bad 3D render, bad composition, bad photo, worst quality">Illustration</option>
+      <option value=", bad art, children's crayon drawing, worst quality, blurry, blur, jpeg artifacts, compression artifacts, text, worst quality, noise, messy, low resolution">Flat Illustration</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Watercolor</option>
+      <option value=", blurry, blur, deformed">1990s Photo</option>
+      <option value=", deformed">1980s Photo</option>
+      <option value=", deformed">1970s Photo</option>
+      <option value=", deformed">1960s Photo</option>
+      <option value=", deformed">1950s Photo</option>
+      <option value=", deformed">1940s Photo</option>
+      <option value=", deformed">1930s Photo</option>
+      <option value=", deformed">1920s Photo</option>
+      <option value=", cropped, bad art, deformed, worst quality, watermark, text">Vintage Pulp Art</option>
+      <option value=", neon tube, bad art, messy, disfigured, bad anatomy, out of focus, grainy, blurry, jpeg artifact noise, deformed">50s Infomercial Anime</option>
+      <option value=", distorted, deformed, bad art, low quality">3D Pokemon</option>
+      <option value=", crappy 3D render, distorted, deformed, bad art, low quality, text, signature">Painted Pokemon</option>
+      <option value=", distorted, deformed, bad art, low quality, crappy 3D render">2D Pokemon</option>
+      <option value=", (worst quality, low quality:1.3), bad art, distorted, deformed">Vintage Anime</option>
+      <option value=", (worst quality, low quality:1.3), bad art, distorted, deformed">Neon Vintage Anime</option>
+      <option value=", (worst quality, low quality:1.3), bad photo, bad 3D render, distorted, deformed, fuzzy, noisy, blurry, smudge">Manga</option>
+      <option value=", low quality, blurry, worst quality, childrens drawing, boring, logo, scratchy and grainy, messy, washed out colors, sepia, hazy">Fantasy World Map</option>
+      <option value=", fuzzy, bad art">Fantasy City Map</option>
+      <option value=", low resolution, worst quality">Old World Map</option>
+      <option value=", low quality, terrible design, glitchy compression artefacts, deformed, blurry compression artefacts, text">3D Isometric Icon</option>
+      <option value=", gradient, bad design, blurry, jpeg compression artefacts, grainy, gradient, text, messy and inconsistent">Flat Style Icon</option>
+      <option value=", low-quality, deformed, text, poorly drawn, multiple">Game Art Icon</option>
+      <option value=", photo, low-quality, deformed, text, poorly drawn">Digital Painting Icon</option>
+      <option value=", low-quality, deformed, text, poorly drawn, multiple">Concept Art Icon</option>
+      <option value=", low quality, text, ugly, gross">Cute 3D Icon</option>
+      <option value=", low quality, text, ugly, gross">Cute 3D Icon 𝗦𝗲𝘁</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Crayon Drawing</option>
+      <option value=", low-quality, deformed, text, poorly drawn">Pencil</option>
+      <option value=", low-quality, poorly drawn, blurry, faded, terrible design, worst quality, deformed, amputee, disfigured, ugly, bad, shitty, boring">Tattoo Design</option>
+      <option value=", bad photo, bad art, boring, bad 3D render, worst quality, ugly, blurry, low quality, poorly drawn, bad composition, deformed, bad 3D render, disfigured, bad anatomy, compression artifacts, dead, soulless, photorealistic">Waifu</option>
+      <option value=", Yugi Mutou, low-quality, blurry, crappy 3D render, worst quality, messy, noisy, framed, with border, cropped, confusing, stacked characters poster, low resolution, bad 3D render, fuzzy">YuGiOh Art</option>
+      <option value=", blurry, low resolution, worst quality, fuzzy">Traditional Japanese</option>
+      <option value=", glossy, creepy, dead eyes, lifeless eyes, blurry, scary, boring, tiling, cropped, terrifying, horror, out of focus">Claymation</option>
+      <option value=", bad art, boring art, hilariously bad drawings, bad 3D render, bad photo, blurry, blur, worst quality, boring colors, logo vector image, monotone, lifeless, expressionless, faded, horror, creepy">Cartoon</option>
+      <option value=", skeleton face, nice photo, lovely photo, old photo, vintage photo, greyscale, wholesome, eyebleach, bad photoshop">Cursed Photo</option>
+    </select>
+  </fieldset>
+  <br>
+  <fieldset class="group">
+    <legend>Miscellaneous</legend>
+    <input id="seedInput" class="mediumContent minSize" placeholder="Seed of the image (-1 or empty for default)" type="number" min="-1" oninput="seed = this.value" onkeyup="if(event.which === 13) { document.querySelector('#generateButtonEl').click(); }" />
+    <div class="smallContent minSize">
+      <legend style="text-align: left">CFG Scale</legend>
+      <input id="cfgScaleInput" class="largeContent minSize" style="width: 100%;" type="range" min="1" max="30" value="7" oninput="cfgScale = this.value">
+    </div>
+    <select id="resolutionInput" class="smallContent minSize" oninput="resolution = this.value">
+      <option value="512x768">Portrait</option>
+      <option value="768x512">Landscape</option>
+      <option value="512x512">Square</option>
+    </select>
+  </fieldset>
+  <br>
+  <button id="generateButtonEl" onclick="createPictures()">Generate</button>
+  <br><br>
+  </section>
+  <div id="outputImageSection" class="imageSection">
+  </div>
+  <br><br>
+  [commentsPlugin(commentsOptions)]
+  <br><br>
+  [t2iPlugin(galleryOptions)]
+</main>
+  </section>
+</div>
+<div id="Paris" class="tabcontent">
+  
+</div>
+
+  
+<div id="Tokyo" class="tabcontent">
+  <section>
+    [t2iPlugin(galleryOptions)]
+  </section>
+</div>
+
+<div id="Upload" class="tabcontent">
+
+</div>
+
+<button onclick="topFunction()" id="topButton" title="Go to Top">
+  Top
+</button>
+<script>
+
+var negativePrompt, resolution, seed, cfgScale;
+
+if (typeof t2iPlugin === 'undefined') {
+  t2iPlugin = function (promptData) {
+    promptData.toString = () => JSON.stringify({
+        prompt,
+        negativePrompt: negativePrompt ?? '',
+        resolution: resolution ?? '512x512',
+        seed: seed ?? -1,
+        cfgScale: cfgScale ?? 7,
+        width: '100px'
+    }
+);
+    return promptData
+  }
+  promptData = {};
+ }
+
+function createPictures() {
+    if ( !seedInput.value || seedInput.value === "-1" ) {
+      outputImageSection.innerHTML = "";
+      outputImageSection.innerHTML += [t2iPlugin(promptData)];
+      outputImageSection.innerHTML += [t2iPlugin(promptData)];
+      outputImageSection.innerHTML += [t2iPlugin(promptData)];
+      outputImageSection.innerHTML += [t2iPlugin(promptData)];
+      outputImageSection.innerHTML += [t2iPlugin(promptData)];
+      outputImageSection.innerHTML += [t2iPlugin(promptData)];
+    } else {
+      outputImageSection.innerHTML = "";
+      outputImageSection.innerHTML += [t2iPlugin(promptData)];
+    }
+    let pictureEmbeds = document.querySelectorAll(".imageSection > *");
+    console.log( `createPictures - pictureEmbeds = ${ JSON.stringify( pictureEmbeds ) }` );
+    console.log( `createPictures - pictureEmbeds.length = ${ JSON.stringify( pictureEmbeds.length ) }` );
+    for ( let i = 0; i < pictureEmbeds.length; i++ ) {
+      console.log( `createPictures - pictureEmbeds[i] = ${ JSON.stringify( pictureEmbeds[i] ) }` );
+      console.log( `createPictures - pictureEmbeds[i].style = ${ JSON.stringify( pictureEmbeds[i].style ) }` );
+      let aspectRatio = pictureEmbeds[i].style.aspectRatio.split(" / ");
+      console.log( `createPictures - aspectRatio = ${ JSON.stringify( aspectRatio ) }` );
+      pictureEmbeds[i].style.maxHeight = aspectRatio[1] + "px";
+      pictureEmbeds[i].style.maxWidth = aspectRatio[0] + "px";
+      pictureEmbeds[i].style.height = null;
+      pictureEmbeds[i].style.width = null;
+      console.log( `createPictures - pictureEmbeds[i].style = ${ JSON.stringify( pictureEmbeds[i].style ) }` );
+    }
+  }
+  Window.onload = setTimeout(onLoad, 20)
+  
+  function onLoad() {
+  document.getElementById("LondonClick").click();
+}
+  
+  function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+    let topbutton = document.getElementById("topButton");
+window.onscroll = function() {scrollFunction()};
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      topbutton.style.display = "block";
+    } else {
+      topbutton.style.display = "none";
+    }
+  }
+  function topFunction() {
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+</script>
